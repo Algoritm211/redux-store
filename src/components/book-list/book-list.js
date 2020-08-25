@@ -56,19 +56,20 @@ const BookListContainer = (props) => {
 
 function mapStateToProps(state) {
     return {
-        books: state.books,
-        loading: state.loading,
-        error: state.error
+        books: state.bookList.books,
+        loading: state.bookList.loading,
+        error: state.bookList.error
     }
 }
 
+// fetchBooks: fetchBooks(bookstoreService, dispatch),
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    const { bookstoreService } = ownProps
-    return {
-        fetchBooks: fetchBooks(bookstoreService, dispatch),
-        onAddedToCart: (id) => dispatch(bookAddedToCart(id))
-    }
+const mapDispatchToProps = (dispatch, { bookstoreService }) => {
+
+    return bindActionCreators({
+        fetchBooks: fetchBooks(bookstoreService),
+        onAddedToCart: bookAddedToCart
+    }, dispatch)    
 }
 
 export default compose(
